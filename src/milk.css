@@ -1,0 +1,50 @@
+/* ===== PAGE TITLE ===== */
+.milk-title {
+  text-align: center;
+  font-size: 42px;
+  margin: 25px 0;
+  font-weight: 800;
+  color: black;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== GRID CONTAINER ===== */
+.milk-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 30px;
+  padding: 30px 40px;
+}
+
+/* ===== CARD DESIGN ===== */
+.milk-card {
+  background: #e9e0e0d9;
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 22px;
+  text-align: center;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+  transition: 0.35s ease;
+  border: 1px solid rgba(255, 136, 0, 0.2);
+}
+
+.milk-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.25);
+}
+
+/* ===== IMAGE ===== */
+.milk-img {
+  width: 100%;
+  height: 230px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+}
+.milk-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: brown;
+  margin: 8px 0;
+}

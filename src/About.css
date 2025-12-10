@@ -1,0 +1,70 @@
+.about-page {
+.pillar {
+flex: 1 1 300px;
+background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+padding: 18px;
+border-radius: 10px;
+border: 1px solid rgba(78,52,46,0.05);
+text-align: center;
+}
+
+
+.pillar h3 {
+margin: 0 0 8px 0;
+color: #5a3b36;
+text-align: center;
+}
+
+
+.offerings {
+margin: 12px 0 20px 20px;
+text-align: center;
+}
+
+
+.offerings li {
+margin: 8px 0;
+text-align: center;
+}
+
+
+.cta {
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap: 12px;
+margin-top: 24px;
+text-align: center;
+}
+
+
+.cta-text {
+font-weight:600;
+text-align: center;
+}
+
+
+.cta-btn {
+padding: 12px 20px;
+background: linear-gradient(90deg,#7b3f2f,#c96f4a);
+color: #fff;
+border-radius: 10px;
+text-decoration: none;
+font-weight: 600;
+text-align: center;
+}
+
+
+.about-footer {
+margin-top: 28px;
+text-align:center;
+color: #5a3b36;
+text-align: center;
+}
+
+
+.taglines {
+font-style: italic;
+text-align: center;
+}
+}

@@ -1,17 +1,20 @@
 import { Link, Route, Routes, Navigate } from "react-router-dom";
 import React from "react";
 import { useSelector } from "react-redux";
-import Veg from "./veg";
-import NonVeg from "./nonveg";
-import Milk from "./milk";
-import About from "./About";
-import Menu from "./Menu.jsx";
-import Cart from "./Cart";
-import Home from "./home";
-import Orders from "./MyOrders";
+
+// Import EXACT file names
+import Veg from "./veg.jsx";
+import NonVeg from "./nonveg.jsx";
+import Milk from "./milk.jsx";
+import Home from "./home.jsx";
+import About from "./About.jsx";
+import Menu from "./menu.jsx";
+import Cart from "./Cart.jsx";
+import Orders from "./MyOrders.jsx";
+import Register from "./Register.jsx";
+import Login from "./Login.jsx";
+
 import { ToastContainer } from "react-toastify";
-import Register from "./Register";
-import Login from "./login";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {

@@ -5,7 +5,7 @@ import Veg from "./veg";
 import NonVeg from "./nonveg";
 import Milk from "./milk";
 import About from "./About";
-import Menu from "./Menu";
+import Menu from "./Menu.jsx";
 import Cart from "./Cart";
 import Home from "./home";
 import Orders from "./MyOrders";

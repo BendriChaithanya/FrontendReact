@@ -56,7 +56,7 @@ function App() {
               className="rounded-circle border"
               style={{ width: 55, height: 55 }}
             />
-            <span className="fw-bold fs-4">BhojanBazaar</span>
+            <span className="fw-bold fs-4">DishHub</span>
           </Link>
 
           <button

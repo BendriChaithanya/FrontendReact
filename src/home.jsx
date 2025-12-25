@@ -22,7 +22,7 @@ function Home() {
       {/* Content */}
       <div className="d-flex flex-column justify-content-center align-items-center text-white h-100 text-center px-3">
 
-        <h1 className="fw-bold mb-4 display-4">Welcome To BhojanBazaar</h1>
+        <h1 className="fw-bold mb-4 display-4">Welcome To DishHub</h1>
 
         <div className="d-grid gap-3 w-75">
           <div className="btn btn-outline-light py-3 fs-4 rounded-pill">Veg</div>

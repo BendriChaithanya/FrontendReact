@@ -1,27 +1,30 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-// import { loginUser } from "./store"; // make sure this import is correct
+//import { loginUser } from "./store"; // make sure this import is correct
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    dispatch(loginUser(data))
-      .then((res) => {
-        if (res.payload?.token) {
-          toast.success("Login successful!");
-          navigate("/");
-        } else {
-          toast.error("Invalid email or password");
-        }
-      })
-      .catch(() => toast.error("Login failed. Please try again."));
-  };
+
+const onSubmit = async (data) => {
+  try {
+    const res = await axios.post("http://localhost:9065/api/v1/products/login", data);
+
+    toast.success("Login successful!");
+    localStorage.setItem("token", res.data.token);
+    navigate("/veg");
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Login failed");
+  }
+};
+
 
   return (
     <div className="container mt-5">

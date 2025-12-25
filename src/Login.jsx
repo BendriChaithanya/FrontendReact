@@ -15,7 +15,7 @@ function Login() {
 
 const onSubmit = async (data) => {
   try {
-    const res = await axios.post(" http://localhost:9065/api/v1/products/login", data);
+    const res = await axios.post("https://dishhub-backend.onrender.com/api/v1/products/login", data);
 
     toast.success("Login successful!");
     localStorage.setItem("token", res.data.token);

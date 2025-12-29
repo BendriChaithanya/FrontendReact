@@ -42,7 +42,7 @@ function Cart() {
       date: new Date(),
     };
 
-    fetch("http://localhost:9065/api/v1/products/placeOrders", {
+    fetch("http://localhost:5000/api/v1/products/placeOrders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderData),

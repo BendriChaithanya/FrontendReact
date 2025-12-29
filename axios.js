@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://github.com/BendriChaithanya/BackendExpress",
+  baseURL: "backend-express-git-main-chaithanyas-projects-bea254d5.vercel.app",
 });
 
 api.interceptors.request.use((config) => {

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:9065/api/v1/products",
+  baseURL: "https://github.com/BendriChaithanya/BackendExpress",
 });
 
 api.interceptors.request.use((config) => {

@@ -51,17 +51,17 @@ const couponsSlice = createSlice({
 });
 export const { applyCoupon } = couponsSlice.actions;
 
-export const fetchVegItems = createAsyncThunk("veg", async () => {
+export const fetchVegItems = createAsyncThunk("veg/fetchVegItems", async () => {
   const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express /api/v1/products/getVegItems");
   return res.data.items;
 });
 
-export const fetchNonvegItems = createAsyncThunk("nonveg", async () => {
+export const fetchNonvegItems = createAsyncThunk("nonveg/fetchNonvegItems", async () => {
   const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express/api/v1/products/getNonvegItems");
   return res.data.items;
 });
 
-export const fetchMilkItems = createAsyncThunk("milk", async () => {
+export const fetchMilkItems = createAsyncThunk("milk/fetchMilkItems", async () => {
   const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express/api/v1/products/getMilkItems");
   return res.data.items;
 });

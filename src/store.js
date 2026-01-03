@@ -53,17 +53,17 @@ const couponsSlice = createSlice({
 export const { applyCoupon } = couponsSlice.actions;
 
 /* -------------------- FETCH PRODUCTS -------------------- */
-export const fetchVegItems = createAsyncThunk("veg/fetchVegItems", async () => {
+export const fetchVegItems = createAsyncThunk("veg", async () => {
   const res = await axios.get("http://localhost:9065/api/v1/products/getVegItems");
   return res.data.items;
 });
 
-export const fetchNonvegItems = createAsyncThunk("nonveg/fetchNonvegItems", async () => {
+export const fetchNonvegItems = createAsyncThunk("nonveg", async () => {
   const res = await axios.get("http://localhost:9065/api/v1/products/getNonvegItems");
   return res.data.items;
 });
 
-export const fetchMilkItems = createAsyncThunk("milk/fetchMilkItems", async () => {
+export const fetchMilkItems = createAsyncThunk("milk", async () => {
   const res = await axios.get("http://localhost:9065/api/v1/products/getMilkItems");
   return res.data.items;
 });

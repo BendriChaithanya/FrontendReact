@@ -12,7 +12,7 @@ function MyOrders() {
 
   return (
     <div className="container my-5">
-      <h2 className="mb-4 text-center fw-bold">My Orders</h2>
+      <h2 className="mb-4 text-center fw-bold">My Orders 📦</h2>
 
       {orders.length === 0 ? (
         <p className="text-center text-muted">You have no orders yet.</p>

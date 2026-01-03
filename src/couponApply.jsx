@@ -14,7 +14,7 @@ function Coupon() {
 
     return (
         <>
-            <label>Enter Discount coupon:</label>
+            <label>Enter Discount coupon:🎟️ </label>
             <input 
                 type="text"
                 placeholder="Enter coupon code"

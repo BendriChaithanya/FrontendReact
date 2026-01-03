@@ -26,16 +26,16 @@ function App() {
 
       {/* Background Video */}
       <div className="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style={{ zIndex: -1 }}>
-        <video
+        {/* <video
           autoPlay
           loop
           muted
           playsInline
           className="w-100 h-100 object-fit-cover d-none d-md-block"
-        >
-          <source src="vid2.mp4" type="video/mp4" />
+        > */}
+          {/* <source src="vid2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
-        </video>
+        </video> */}
         {/* Fallback background image for mobile */}
         <img 
           src="dish.png" 
@@ -44,7 +44,7 @@ function App() {
         />
       </div>
 
-      <ToastContainer position="top-center" autoClose={2000} />
+      <ToastContainer position="bottom-center" autoClose={2000} />
 
       {/* NAVBAR */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">

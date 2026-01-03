@@ -60,7 +60,7 @@ function Cart() {
 
         {/* Cart Heading */}
         <h2 className="text-center text-light fw-bold mb-4 display-4" style={{ fontFamily: "Poppins" }}>
-          🛒 My Stylish Cart
+          🛒 MyCart
         </h2>
 
         {/* Empty Cart */}

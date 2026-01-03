@@ -38,7 +38,7 @@ function App() {
         </video>
         {/* Fallback background image for mobile */}
         <img 
-          src="vid2-poster.jpg" 
+          src="dish.png" 
           alt="Background" 
           className="w-100 h-100 object-fit-cover d-block d-md-none"
         />
@@ -51,7 +51,7 @@ function App() {
         <div className="container-fluid">
           <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
             <img
-              src="logo.jpg.png"
+              src="logodish.jpg.png"
               alt="BhojanBazaar"
               className="rounded-circle border"
               style={{ width: 55, height: 55 }}

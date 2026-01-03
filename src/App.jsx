@@ -1,8 +1,137 @@
+// import { Link, Route, Routes, Navigate } from "react-router-dom";
+// import React from "react";
+// import { useSelector } from "react-redux";
+
+// // Import EXACT file names
+// import Veg from "./veg.jsx";
+// import NonVeg from "./nonveg.jsx";
+// import Milk from "./milk.jsx";
+// import Home from "./home.jsx";
+// import About from "./About.jsx";
+// import Menu from "./menu.jsx";
+// import Cart from "./Cart.jsx";
+// import Orders from "./MyOrders.jsx";
+// import Register from "./Register.jsx";
+// import Login from "./Login.jsx";
+
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// function App() {
+//   const cartItems = useSelector((state) => state.cart);
+//   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+//   return (
+//     <div className="app-container position-relative">
+
+//       {/* Background Video */}
+//       <div className="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style={{ zIndex: -1 }}>
+//         {/* <video
+//           autoPlay
+//           loop
+//           muted
+//           playsInline
+//           className="w-100 h-100 object-fit-cover d-none d-md-block"
+//         > */}
+//           {/* <source src="vid2.mp4" type="video/mp4" />
+//           Your browser does not support the video tag.
+//         </video> */}
+//         {/* Fallback background image for mobile */}
+//         <img 
+//           src="dish.png" 
+//           alt="Background" 
+//           className="w-100 h-100 object-fit-cover d-block d-md-none"
+//         />
+//       </div>
+
+//       <ToastContainer position="bottom-center" autoClose={2000} />
+
+//       {/* NAVBAR */}
+//       <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+//         <div className="container-fluid">
+//           <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
+//             <img
+//               src="logodish.jpg.png"
+//               alt="BhojanBazaar"
+//               className="rounded-circle border"
+//               style={{ width: 55, height: 55 }}
+//             />
+//             <span className="fw-bold fs-4">DishHub</span>
+//           </Link>
+
+//           <button
+//             className="navbar-toggler"
+//             type="button"
+//             data-bs-toggle="collapse"
+//             data-bs-target="#navbarContent"
+//           >
+//             <span className="navbar-toggler-icon"></span>
+//           </button>
+
+//           <div className="collapse navbar-collapse" id="navbarContent">
+//             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+//               {["Home","Veg","NonVeg","Milk","About","Menu","My Orders","Register","Login"].map((item, idx) => (
+//                 <li className="nav-item" key={idx}>
+//                   <Link 
+//                     className="nav-link text-light fw-medium" 
+//                     to={`/${item.replace(/\s+/g, '')}`}
+//                   >
+//                     {item}
+//                   </Link>
+//                 </li>
+//               ))}
+//               <li className="nav-item">
+//                 <Link className="nav-link position-relative fw-semibold text-light" to="/cart">
+//                   🛒 Cart
+//                   {cartCount > 0 && (
+//                     <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
+//                       {cartCount}
+//                     </span>
+//                   )}
+//                 </Link>
+//               </li>
+//             </ul>
+//           </div>
+//         </div>
+//       </nav>
+
+//       {/* Routes */}
+//       <div className="pt-5 mt-4">
+//         <Routes>
+//           <Route path="/" element={<Navigate to="/home" />} />
+//           <Route path="/home" element={<Home />} />
+//           <Route path="/veg" element={<Veg />} />
+//           <Route path="/nonveg" element={<NonVeg />} />
+//           <Route path="/milk" element={<Milk />} />
+//           <Route path="/about" element={<About />} />
+//           <Route path="/menu" element={<Menu />} />
+//           <Route path="/cart" element={<Cart />} />
+//           <Route path="/MyOrders" element={<Orders />} />
+//           <Route path="/Register" element={<Register />} />
+//           <Route path="/Login" element={<Login />} />
+//         </Routes>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
+
+
+
+// second code //  
+
+
+
+
 import { Link, Route, Routes, Navigate } from "react-router-dom";
 import React from "react";
 import { useSelector } from "react-redux";
 
-// Import EXACT file names
+// Import components
 import Veg from "./veg.jsx";
 import NonVeg from "./nonveg.jsx";
 import Milk from "./milk.jsx";
@@ -23,23 +152,15 @@ function App() {
 
   return (
     <div className="app-container position-relative">
-
-      {/* Background Video */}
-      <div className="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style={{ zIndex: -1 }}>
-        {/* <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-100 h-100 object-fit-cover d-none d-md-block"
-        > */}
-          {/* <source src="vid2.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video> */}
-        {/* Fallback background image for mobile */}
-        <img 
-          src="dish.png" 
-          alt="Background" 
+      
+      {/* Background */}
+      <div
+        className="position-fixed top-0 start-0 w-100 h-100 overflow-hidden"
+        style={{ zIndex: -1 }}
+      >
+        <img
+          src="dish.png"
+          alt="Background"
           className="w-100 h-100 object-fit-cover d-block d-md-none"
         />
       </div>
@@ -52,7 +173,7 @@ function App() {
           <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
             <img
               src="logodish.jpg.png"
-              alt="BhojanBazaar"
+              alt="DishHub"
               className="rounded-circle border"
               style={{ width: 55, height: 55 }}
             />
@@ -70,18 +191,32 @@ function App() {
 
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              {["Home","Veg","NonVeg","Milk","About","Menu","My Orders","Register","Login"].map((item, idx) => (
+              {[
+                "Home",
+                "Veg",
+                "NonVeg",
+                "Milk",
+                "About",
+                "Menu",
+                "My Orders",
+                "Register",
+                "Login",
+              ].map((item, idx) => (
                 <li className="nav-item" key={idx}>
-                  <Link 
-                    className="nav-link text-light fw-medium" 
-                    to={`/${item.replace(/\s+/g, '')}`}
+                  <Link
+                    className="nav-link text-light fw-medium"
+                    to={`/${item.replace(/\s+/g, "").toLowerCase()}`}
                   >
                     {item}
                   </Link>
                 </li>
               ))}
+
               <li className="nav-item">
-                <Link className="nav-link position-relative fw-semibold text-light" to="/cart">
+                <Link
+                  className="nav-link position-relative fw-semibold text-light"
+                  to="/cart"
+                >
                   🛒 Cart
                   {cartCount > 0 && (
                     <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
@@ -95,7 +230,7 @@ function App() {
         </div>
       </nav>
 
-      {/* Routes */}
+      {/* ROUTES */}
       <div className="pt-5 mt-4">
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
@@ -106,9 +241,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/MyOrders" element={<Orders />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/myorders" element={<Orders />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </div>

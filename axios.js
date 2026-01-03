@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "https://vercel.com/chaithanyas-projects-bea254d5/backend-express/GktVTgfZxDHJSPeLbypBjgF1tTmQ",
+const api = axios.get({
+  baseURL: "https://vercel.com/chaithanyas-projects-bea254d5/backend-express",
 });
 
 api.interceptors.request.use((config) => {

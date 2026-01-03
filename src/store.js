@@ -2,13 +2,13 @@ import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { coupons } from "./Cupon.js";
 import axios from "axios";
 
-/* -------------------- CART SLICE -------------------- */
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: [],
   reducers: {
     addToCart: (state, action) => {
-  const payload = { ...action.payload, id: action.payload._id }; // map backend _id → id
+  const payload = { ...action.payload, id: action.payload._id }; 
   const item = state.find(i => i.id === payload.id);
   if (item) item.quantity += 1;
   else state.push({ ...payload, quantity: 1 });
@@ -30,7 +30,6 @@ const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity } = cartSlice.actions;
 
-/* -------------------- COUPON SLICE -------------------- */
 const couponsSlice = createSlice({
   name: "coupons",
   initialState: { code: "", discount: 0, msg: "", applied: false },
@@ -52,7 +51,6 @@ const couponsSlice = createSlice({
 });
 export const { applyCoupon } = couponsSlice.actions;
 
-/* -------------------- FETCH PRODUCTS -------------------- */
 export const fetchVegItems = createAsyncThunk("veg", async () => {
   const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express /api/v1/products/getVegItems");
   return res.data.items;
@@ -68,7 +66,7 @@ export const fetchMilkItems = createAsyncThunk("milk", async () => {
   return res.data.items;
 });
 
-/* -------------------- REGISTER USER -------------------- */
+
 export const registerUser = createAsyncThunk("register", async (data, { rejectWithValue }) => {
   try {
     const res = await axios.post("http://localhost:9065/api/v1/products/register", data);
@@ -78,7 +76,7 @@ export const registerUser = createAsyncThunk("register", async (data, { rejectWi
   }
 });
 
-/* -------------------- LOGIN USER -------------------- */
+
 export const LoginUser = createAsyncThunk("login", async (data, { rejectWithValue }) => {
   try {
     const res = await axios.post("http://localhost:9065/api/v1/products/login", data);
@@ -89,11 +87,10 @@ export const LoginUser = createAsyncThunk("login", async (data, { rejectWithValu
   }
 });
 
-/* -------------------- FETCH ORDERS (PROTECTED) -------------------- */
 export const fetchOrders = createAsyncThunk("orders", async (_, { rejectWithValue }) => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:9065/api/v1/products/orders", {
+    const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express/orders", {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.data.data;
@@ -102,7 +99,6 @@ export const fetchOrders = createAsyncThunk("orders", async (_, { rejectWithValu
   }
 });
 
-/* -------------------- PRODUCT SLICE -------------------- */
 const Vegslice = createSlice({
   name: "veg",
   initialState: { VegItems: [], loading: false, error: null },
@@ -154,7 +150,6 @@ const Milkslice = createSlice({
   }
 });
 
-/* -------------------- USER SLICE -------------------- */
 const userSlice = createSlice({
   name: "login",
   initialState: { user: null, loading: false, error: null, token: null, orders: [] },
@@ -183,7 +178,6 @@ const userSlice = createSlice({
   }
 });
 
-/* -------------------- STORE -------------------- */
 const Store = configureStore({
   reducer: {
     cart: cartSlice.reducer,

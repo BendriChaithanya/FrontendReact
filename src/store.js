@@ -69,7 +69,7 @@ export const fetchMilkItems = createAsyncThunk("fetchMilkItems", async () => {
 
 export const registerUser = createAsyncThunk("register", async (data, { rejectWithValue }) => {
   try {
-    const res = await axios.post("https://backend-express-pink-seven.vercel.app/api/v1/products/register", data);
+    const res = await axios.post("https://backend-express-pink-seven.vercel.app/register", data);
     return res.data;
   } catch (err) {
     return rejectWithValue(err.response?.data || err.message);
@@ -79,7 +79,7 @@ export const registerUser = createAsyncThunk("register", async (data, { rejectWi
 
 export const LoginUser = createAsyncThunk("login", async (data, { rejectWithValue }) => {
   try {
-    const res = await axios.post("https://backend-express-pink-seven.vercel.app/api/v1/products/login", data);
+    const res = await axios.post("https://backend-express-pink-seven.vercel.app/login", data);
     localStorage.setItem("token", res.data.token);
     return res.data;
   } catch (err) {

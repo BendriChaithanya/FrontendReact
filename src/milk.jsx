@@ -29,10 +29,11 @@ function Milk() {
   const handleNext = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
 
   return (
+     <div className="bg-dark text-light min-vh-100">
     <div className="container py-4">
 
       {/* 🔶 Component Title Orange */}
-      <h1 className="text-center fw-bold mb-4" style={{ color: "orange" }}>
+      <h1 className="text-center fw-bold mb-4" style={{ color: "text-light" }}>
         🥤 Milkshakes 
       </h1>
 
@@ -124,6 +125,7 @@ function Milk() {
           </ul>
         </nav>
       )}
+    </div>
     </div>
   );
 }

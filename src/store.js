@@ -52,24 +52,24 @@ const couponsSlice = createSlice({
 export const { applyCoupon } = couponsSlice.actions;
 
 export const fetchVegItems = createAsyncThunk("fetchVegItems", async () => {
-  const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express /api/v1/products/getVegItems");
+  const res = await axios.get("https://backend-express-pink-seven.vercel.app/api/v1/products/getVegItems");
   return res.data.items;
 });
 
 export const fetchNonvegItems = createAsyncThunk("fetchNonvegItems", async () => {
-  const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express/api/v1/products/getNonvegItems");
+  const res = await axios.get("https://backend-express-pink-seven.vercel.app/api/v1/products/getNonvegItems");
   return res.data.items;
 });
 
 export const fetchMilkItems = createAsyncThunk("fetchMilkItems", async () => {
-  const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express/api/v1/products/getMilkItems");
+  const res = await axios.get("https://backend-express-pink-seven.vercel.app/api/v1/products/getMilkItems");
   return res.data.items;
 });
 
 
 export const registerUser = createAsyncThunk("register", async (data, { rejectWithValue }) => {
   try {
-    const res = await axios.post("http://localhost:9065/api/v1/products/register", data);
+    const res = await axios.post("https://backend-express-pink-seven.vercel.app/register", data);
     return res.data;
   } catch (err) {
     return rejectWithValue(err.response?.data || err.message);
@@ -79,7 +79,7 @@ export const registerUser = createAsyncThunk("register", async (data, { rejectWi
 
 export const LoginUser = createAsyncThunk("login", async (data, { rejectWithValue }) => {
   try {
-    const res = await axios.post("http://localhost:9065/api/v1/products/login", data);
+    const res = await axios.post("https://backend-express-pink-seven.vercel.app/login", data);
     localStorage.setItem("token", res.data.token);
     return res.data;
   } catch (err) {
@@ -90,7 +90,7 @@ export const LoginUser = createAsyncThunk("login", async (data, { rejectWithValu
 export const fetchOrders = createAsyncThunk("orders", async (_, { rejectWithValue }) => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("https://vercel.com/chaithanyas-projects-bea254d5/backend-express/orders", {
+    const res = await axios.get("https://backend-express-pink-seven.vercel.app/orders", {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.data.data;

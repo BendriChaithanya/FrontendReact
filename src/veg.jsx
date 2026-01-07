@@ -25,6 +25,7 @@ function Veg() {
   );
 
   return (
+    <div className="bg-dark text-light min-vh-100">
     <div className="container py-4">
 
       {/* 🔶 Component Title Orange */}
@@ -124,6 +125,7 @@ function Veg() {
           </ul>
         </nav>
       )}
+    </div>
     </div>
   );
 }

@@ -11,6 +11,7 @@ function MyOrders() {
   }, [dispatch]);
 
   return (
+    <div className="bg-dark text-light min-vh-100">
     <div className="container my-5">
       <h2 className="mb-4 text-center fw-bold">My Orders 📦</h2>
 
@@ -44,6 +45,7 @@ function MyOrders() {
           ))}
         </div>
       )}
+    </div>
     </div>
   );
 }

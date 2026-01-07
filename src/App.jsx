@@ -158,17 +158,17 @@ function App() {
         className="position-fixed top-0 start-0 w-100 h-100 overflow-hidden"
         style={{ zIndex: -1 }}
       >
-        <img
+        {/* <img
           src="dish.png"
           alt="Background"
           className="w-100 h-100 object-fit-cover d-block d-md-none"
-        />
+        /> */}
       </div>
 
       <ToastContainer position="bottom-center" autoClose={2000} />
 
       {/* NAVBAR */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+      <nav className="navbar navbar-expand-lg bg-Black shadow-sm fixed-top">
         <div className="container-fluid">
           <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
             <img

@@ -24,6 +24,7 @@ function NonVeg() {
   );
 
   return (
+    <div className="bg-dark text-light min-vh-100">
     <div className="container py-4">
       {/* Title */}
       <h1 className="text-center fw-bold mb-4" style={{ color: "orange" }}>
@@ -118,6 +119,7 @@ function NonVeg() {
           </ul>
         </nav>
       )}
+    </div>
     </div>
   );
 }

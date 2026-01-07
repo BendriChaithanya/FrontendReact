@@ -19,6 +19,7 @@ function Register() {
   };
 
   return (
+    <div className="bg-dark text-light min-vh-100">
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
@@ -84,6 +85,7 @@ function Register() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

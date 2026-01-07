@@ -2,6 +2,7 @@ import React from "react";
 
 function About() {
   return (
+    <div className="bg-dark text-light min-vh-100">
     <div className="container my-5">
 
       {/* Pillars Section */}
@@ -76,6 +77,8 @@ function About() {
         <p className="mb-0 fst-italic">"Ghar Ka Swaad, Har Plate Mein." — Bhojan Bazaar</p>
       </footer>
     </div>
+    </div>
+    
   );
 }
 

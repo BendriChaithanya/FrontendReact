@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "./store";
-import { toggleWishlist } from "./wishlistSlice";
+// import { toggleWishlist } from "./wishlistSlice";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 

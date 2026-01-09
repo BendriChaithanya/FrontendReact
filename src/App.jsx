@@ -142,7 +142,7 @@ import Cart from "./Cart.jsx";
 import Orders from "./MyOrders.jsx";
 import Register from "./Register.jsx";
 import Login from "./Login.jsx";
-import Wishlist from "./wishlist";
+import Wishlist from "./wishlist.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

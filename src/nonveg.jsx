@@ -1,125 +1,189 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, fetchNonvegItems } from "./store";
+import { fetchNonvegItems, addToCart } from "./store";
+import { toggleWishlist } from "./wishlistSlice";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function NonVeg() {
   const dispatch = useDispatch();
+
   const { NonvegItems = [], loading, error } = useSelector(
-    (state) => state.nonveg || { NonvegItems: [] }
+    state => state.nonveg || {}
   );
+  const wishlist = useSelector(state => state.wishlist);
+
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 8;
 
   useEffect(() => {
     dispatch(fetchNonvegItems());
   }, [dispatch]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(NonvegItems.length / itemsPerPage) || 1;
+  const filteredItems = NonvegItems.filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  const currentItems = NonvegItems.slice(
+  const popularItems = filteredItems.filter(
+    item => (item.rating || 4.5) >= 4.5
+  );
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
+
+  const currentItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  const isWishlisted = id => wishlist.some(i => i.id === id);
+
   return (
-    <div className="bg-dark text-light min-vh-100">
-    <div className="container py-4">
-      {/* Title */}
-      <h1 className="text-center fw-bold mb-4" style={{ color: "orange" }}>
-        🍗 Non-Veg Fodd
-      </h1>
+    <div className="bg-light min-vh-100">
+      <div className="container py-4">
 
-      {loading && <p className="text-center text-primary">Loading...</p>}
-      {error && <p className="text-center text-danger">⚠ {error}</p>}
-      {!loading && NonvegItems.length === 0 && (
-        <p className="text-center text-secondary">No Non-Veg Items Found</p>
-      )}
+        {/* TITLE — SAME AS VEG */}
+        <h2 className="text-center fw-bold mb-4">
+          🍗 NON-VEG FOODIE
+        </h2>
 
-      {/* Items */}
-      <div className="row g-4">
-        {currentItems.map((item) => (
-          <div key={item.id} className="col-md-3 col-sm-6">
-            <div className="card shadow h-100 rounded-4">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="card-img-top rounded-top"
-                style={{ height: "230px", objectFit: "cover" }}
-              />
+        {/* SEARCH — SAME */}
+        <div className="row justify-content-center mb-4">
+          <div className="col-md-6">
+            <input
+              className="form-control rounded-pill"
+              placeholder="Search non-veg food..."
+              value={search}
+              onChange={e => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+        </div>
 
-              <div className="card-body d-flex flex-column">
-                {/* Item Name Black */}
-                <h5 className="fw-bold text-dark">{item.name}</h5>
+        {loading && <p className="text-center text-info">Loading...</p>}
+        {error && <p className="text-center text-danger">{error}</p>}
 
-                <p className="text-muted small flex-grow-1">{item.description}</p>
+        {/* POPULAR — SAME */}
+        {popularItems.length > 0 && (
+          <>
+            <h5 className="fw-bold text-warning mb-3">
+              🔥 Popular Items
+            </h5>
 
-                {/* Price Red */}
-                <h5 className="fw-bold" style={{ color: "red" }}>
-                  ₹{item.price}
-                </h5>
+            <div className="row g-4 mb-5">
+              {popularItems.slice(0, 4).map(item => (
+                <div key={item.id} className="col-md-3 col-sm-6">
+                  <div className="card h-100 shadow-sm">
 
+                    <span className="badge bg-warning text-dark position-absolute m-2">
+                      Popular
+                    </span>
+
+                    <img
+                      src={item.image}
+                      className="card-img-top"
+                      style={{ height: "200px", objectFit: "cover" }}
+                    />
+
+                    <div className="card-body">
+                      <h6 className="fw-bold">{item.name}</h6>
+                      <p className="fw-semibold text-danger">
+                        ₹{item.price}
+                      </p>
+
+                      <button
+                        className="btn btn-success w-100 rounded-pill"
+                        onClick={() => dispatch(addToCart(item))}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* MAIN ITEMS — SAME */}
+        <div className="row g-3">
+          {currentItems.map(item => (
+            <div key={item.id} className="col-md-3 col-sm-6">
+              <div className="card h-100 shadow-sm border-0 position-relative">
+
+                {/* WISHLIST — SAME */}
                 <button
-                  className="btn btn-dark mt-2 w-100 rounded-3"
+                  className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
                   onClick={() => {
-                    dispatch(addToCart(item));
-                    toast.success(`${item.name} added to cart!`);
+                    dispatch(toggleWishlist(item));
+                    toast.info(
+                      isWishlisted(item._id || item.id)
+                        ? "Removed from wishlist"
+                        : "Added to wishlist ❤️"
+                    );
                   }}
                 >
-                  🛒 Add to Cart
+                  {isWishlisted(item._id || item.id) ? "❤️" : "🤍"}
                 </button>
+
+                <img
+                  src={item.image}
+                  className="card-img-top"
+                  style={{ height: "160px", objectFit: "cover" }}
+                />
+
+                <div className="card-body d-flex flex-column">
+                  <h6 className="fw-bold">{item.name}</h6>
+                  <p className="text-muted small flex-grow-1">
+                    {item.description}
+                  </p>
+
+                  <h6 className="fw-bold text-danger">
+                    ₹{item.price}
+                  </h6>
+
+                  <button
+                    className="btn btn-dark rounded-pill mt-2"
+                    onClick={() => {
+                      dispatch(addToCart(item));
+                      toast.success("Added to cart 🛒");
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Pagination */}
-      {NonvegItems.length > 0 && (
+        {/* PAGINATION — SAME */}
         <nav className="mt-4 d-flex justify-content-center">
-          <ul className="pagination pagination-lg gap-2">
-            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-              <button
-                className="page-link rounded-3 fw-bold"
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                ◀ Prev
-              </button>
-            </li>
-
-            {[...Array(totalPages)].map((_, index) => (
+          <ul className="pagination gap-2">
+            {[...Array(totalPages)].map((_, i) => (
               <li
-                key={index}
+                key={i}
                 className={`page-item ${
-                  currentPage === index + 1 ? "active" : ""
+                  currentPage === i + 1 ? "active" : ""
                 }`}
               >
                 <button
-                  className="page-link rounded-3 fw-bold"
-                  onClick={() => setCurrentPage(index + 1)}
+                  className="page-link rounded-pill"
+                  onClick={() => setCurrentPage(i + 1)}
                 >
-                  {index + 1}
+                  {i + 1}
                 </button>
               </li>
             ))}
-
-            <li
-              className={`page-item ${
-                currentPage === totalPages ? "disabled" : ""
-              }`}
-            >
-              <button
-                className="page-link rounded-3 fw-bold"
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                Next ▶
-              </button>
-            </li>
           </ul>
         </nav>
-      )}
-    </div>
+
+      </div>
     </div>
   );
 }

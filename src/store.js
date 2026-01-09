@@ -1,6 +1,9 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { coupons } from "./Cupon.js";
 import axios from "axios";
+import wishlistReducer from "./wishlistSlice";
+
+
 
 
 const cartSlice = createSlice({
@@ -191,7 +194,8 @@ const userSlice = createSlice({
         state.orders = action.payload || [];
       });
   }
-});
+  });
+
 
 const Store = configureStore({
   reducer: {
@@ -201,6 +205,8 @@ const Store = configureStore({
     nonveg: Nonvegslice.reducer,
     milk: Milkslice.reducer,
     login: userSlice.reducer,
+    wishlist: wishlistReducer,
+
   },
 });
 

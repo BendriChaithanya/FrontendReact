@@ -142,7 +142,7 @@ import Cart from "./Cart.jsx";
 import Orders from "./MyOrders.jsx";
 import Register from "./Register.jsx";
 import Login from "./Login.jsx";
-
+import Wishlist from "./Wishlist";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -211,6 +211,8 @@ function App() {
                   </Link>
                 </li>
               ))}
+              <Link to="/wishlist" className="btn btn-outline-danger"> ❤️ Wishlist</Link>
+
 
               <li className="nav-item">
                 <Link
@@ -244,6 +246,7 @@ function App() {
           <Route path="/myorders" element={<Orders />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/wishlist" element={< Wishlist />} />
         </Routes>
       </div>
     </div>

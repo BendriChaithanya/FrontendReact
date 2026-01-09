@@ -1,131 +1,197 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, fetchMilkItems } from "./store";
+import { fetchMilkItems, addToCart } from "./store";
+import { toggleWishlist } from "./wishlistSlice";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Milk() {
   const dispatch = useDispatch();
-  const { MilkItems = [], loading, error } = useSelector((state) => state.milk);
+
+  const { MilkItems = [], loading, error } = useSelector(
+    state => state.milk || {}
+  );
+  const wishlist = useSelector(state => state.wishlist);
+
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 8;
 
   useEffect(() => {
     dispatch(fetchMilkItems());
   }, [dispatch]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(MilkItems.length / itemsPerPage) || 1;
+  const filteredItems = MilkItems.filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  const currentItems = MilkItems.slice(
+  /* 🔥 POPULAR ITEMS — SAME LOGIC AS NONVEG */
+  const popularItems = filteredItems.filter(
+    item => (item.rating || 4.5) >= 4.5
+  );
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
+
+  const currentItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  useEffect(() => {
-    if (currentPage > totalPages) setCurrentPage(1);
-  }, [MilkItems, totalPages, currentPage]);
-
-  const handlePrev = () => currentPage > 1 && setCurrentPage(currentPage - 1);
-  const handleNext = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
+  const isWishlisted = id => wishlist.some(i => i.id === id);
 
   return (
-    <div className="bg-dark text-light min-vh-100">
-    <div className="container py-4">
+    <div className="bg-light min-vh-100">
+      <div className="container py-4">
 
-      {/* 🔶 Component Title Orange */}
-      <h1 className="text-center fw-bold mb-4" style={{ color:"Background" }}>
-        🥤 Milkshakes 
-      </h1>
+        {/* TITLE */}
+       <h2 className="text-center fw-bold mb-4">
+          🥤 MILKSHAKES
+        </h2>
 
-      {loading && <p className="text-center text-primary">Loading...</p>}
-      {error && <p className="text-center text-danger">⚠ {error}</p>}
-      {!loading && MilkItems.length === 0 && (
-        <p className="text-center text-secondary">No Milk Items Found</p>
-      )}
+        {/* SEARCH */}
+        <div className="row justify-content-center mb-4">
+          <div className="col-md-6">
+            <input
+              className="form-control rounded-pill"
+              placeholder="Search milkshakes..."
+              value={search}
+              onChange={e => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+        </div>
 
-      <div className="row g-4">
-        {currentItems.map((item) => (
-          <div key={item.id} className="col-md-3 col-sm-6">
-            <div
-              className="card shadow-sm h-100 rounded-4 border border-success border-2"
-              style={{ transition: "0.3s" }}
-            >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="card-img-top rounded-top"
-                style={{ height: "220px", objectFit: "cover" }}
-              />
+        {loading && <p className="text-center text-info">Loading...</p>}
+        {error && <p className="text-center text-danger">{error}</p>}
 
-              <div className="card-body d-flex flex-column">
+        {/* 🔥 POPULAR ITEMS — SAME STYLE AS NONVEG */}
+        {popularItems.length > 0 && (
+          <>
+            <h5 className="fw-bold text-warning mb-3">
+              🔥 Popular Items
+            </h5>
 
-                {/* 🔹 Item Name Black */}
-                <h5 className="fw-bold" style={{ color: "black" }}>
-                  {item.name}
-                </h5>
+            <div className="row g-4 mb-5">
+              {popularItems.slice(0, 4).map(item => (
+                <div key={item.id} className="col-md-3 col-sm-6">
+                  <div className="card h-100 shadow-sm position-relative">
 
-                <p className="text-muted small flex-grow-1">{item.description}</p>
+                    <span className="badge bg-warning text-dark position-absolute m-2">
+                      Popular
+                    </span>
 
-                {/* 🔴 Price Red */}
-                <h5 className="fw-bold" style={{ color: "red" }}>
-                  ₹{item.price}
-                </h5>
+                    <img
+                      src={item.image}
+                      className="card-img-top"
+                      style={{ height: "200px", objectFit: "cover" }}
+                      alt={item.name}
+                    />
 
+                    <div className="card-body">
+                      <h6 className="fw-bold">{item.name}</h6>
+
+                      <p className="fw-semibold text-primary">
+                        ₹{item.price}
+                      </p>
+
+                      <button
+                        className="btn btn-success w-100 rounded-pill"
+                        onClick={() => {
+                          dispatch(addToCart(item));
+                          toast.success("Added to cart 🛒");
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* MAIN ITEMS */}
+        <div className="row g-3">
+          {currentItems.map(item => (
+            <div key={item.id} className="col-md-3 col-sm-6">
+              <div className="card h-100 shadow-sm border-0 position-relative">
+
+                {/* WISHLIST */}
                 <button
-                  className="btn mt-2 w-100 rounded-3"
-                  style={{ backgroundColor: "black", color: "white" }}
+                  className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
                   onClick={() => {
-                    dispatch(addToCart(item));
-                    toast.success(`${item.name} added to cart!`);
+                    dispatch(toggleWishlist(item));
+                    toast.info(
+                      isWishlisted(item._id || item.id)
+                        ? "Removed from wishlist"
+                        : "Added to wishlist ❤️"
+                    );
                   }}
                 >
-                  🛒 Add to Cart
+                  {isWishlisted(item._id || item.id) ? "❤️" : "🤍"}
                 </button>
+
+                <img
+                  src={item.image}
+                  className="card-img-top"
+                  style={{ height: "160px", objectFit: "cover" }}
+                  alt={item.name}
+                />
+
+                <div className="card-body d-flex flex-column">
+                  <h6 className="fw-bold">{item.name}</h6>
+
+                  <p className="text-muted small flex-grow-1">
+                    {item.description}
+                  </p>
+
+                  <h6 className="fw-bold text-primary">
+                    ₹{item.price}
+                  </h6>
+
+                  <button
+                    className="btn btn-dark rounded-pill mt-2"
+                    onClick={() => {
+                      dispatch(addToCart(item));
+                      toast.success("Added to cart 🛒");
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
 
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Pagination */}
-      {MilkItems.length > 0 && (
+        {/* PAGINATION */}
         <nav className="mt-4 d-flex justify-content-center">
-          <ul className="pagination pagination-md">
-            <li className={`page-item ${currentPage === 1 ? "disabled" : ""} mx-1`}>
-              <button className="page-link" onClick={handlePrev}>
-                ◀ Previous
-              </button>
-            </li>
-
-            {[...Array(totalPages)].map((_, index) => (
+          <ul className="pagination gap-2">
+            {[...Array(totalPages)].map((_, i) => (
               <li
-                key={index}
-                className={`page-item ${currentPage === index + 1 ? "active" : ""} mx-1`}
+                key={i}
+                className={`page-item ${
+                  currentPage === i + 1 ? "active" : ""
+                }`}
               >
                 <button
-                  className="page-link"
-                  style={{
-                    backgroundColor: currentPage === index + 1 ? "black" : "white",
-                    color: currentPage === index + 1 ? "white" : "black",
-                    borderColor: "black",
-                  }}
-                  onClick={() => setCurrentPage(index + 1)}
+                  className="page-link rounded-pill"
+                  onClick={() => setCurrentPage(i + 1)}
                 >
-                  {index + 1}
+                  {i + 1}
                 </button>
               </li>
             ))}
-
-            <li className={`page-item ${currentPage === totalPages ? "disabled" : ""} mx-1`}>
-              <button className="page-link" onClick={handleNext}>
-                Next ▶
-              </button>
-            </li>
           </ul>
         </nav>
-      )}
-    </div>
+
+      </div>
     </div>
   );
 }

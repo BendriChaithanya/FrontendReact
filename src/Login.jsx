@@ -1,68 +1,107 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-//import { loginUser } from "./store"; // make sure this import is correct
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+const API_URL =
+  "https://dishhub-backend.onrender.com/api/v1/products/login";
 
 function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
   const navigate = useNavigate();
 
-
-const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
   try {
-    const res = await axios.post("https://dishhub-backend.onrender.com/api/v1/products/login", data);
+    const res = await axios.post(API_URL, data);
 
+    // Check for success flag if backend always returns 200
+    if (res.data.success === false) {
+      toast.error(res.data.message || "Login failed");
+      return;
+    }
+
+    // Success
     toast.success("Login successful!");
     localStorage.setItem("token", res.data.token);
     navigate("/veg");
   } catch (err) {
+    console.error(err);
     toast.error(err.response?.data?.message || "Login failed");
   }
 };
 
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-5">
-          <div className="card p-4 shadow">
-            <h2 className="mb-4 text-center">Login</h2>
+    <div className="bg-body-tertiary min-vh-100 d-flex align-items-center">
+      <div className="container px-3">
+        <div className="row justify-content-center w-100">
+          <div className="col-12 col-sm-10 col-md-6 col-lg-4">
+            <div className="card shadow border-0 rounded-4">
+              <div className="card-body p-4 p-md-5">
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-3">
-                <label>Email</label>
-                <input
-                  {...register("email", { required: true })}
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter your email"
-                />
-                {errors.email && <small className="text-danger">Email is required</small>}
+                <h3 className="text-center fw-bold mb-1">Welcome Back</h3>
+                <p className="text-center text-muted small mb-4">
+                  Login to continue
+                </p>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                  {/* Email */}
+                  <div className="form-floating mb-3">
+                    <input
+                      type="email"
+                      className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                      placeholder="Email"
+                      {...register("email", { required: true })}
+                    />
+                    <label>Email</label>
+                    {errors.email && (
+                      <div className="invalid-feedback">
+                        Email is required
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Password */}
+                  <div className="form-floating mb-4">
+                    <input
+                      type="password"
+                      className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                      placeholder="Password"
+                      {...register("password", { required: true })}
+                    />
+                    <label>Password</label>
+                    {errors.password && (
+                      <div className="invalid-feedback">
+                        Password is required
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-lg w-100 rounded-pill"
+                  >
+                    Login
+                  </button>
+                </form>
+
+                <div className="text-center mt-4">
+                  <small className="text-muted">
+                    Don’t have an account?{" "}
+                    <Link to="/register" className="fw-semibold text-decoration-none">
+                      Register
+                    </Link>
+                  </small>
+                </div>
+
               </div>
-
-              <div className="mb-3">
-                <label>Password</label>
-                <input
-                  {...register("password", { required: true })}
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter your password"
-                />
-                {errors.password && <small className="text-danger">Password is required</small>}
-              </div>
-
-              <button type="submit" className="btn btn-primary w-100">Login</button>
-            </form>
-
-            <div className="mt-3 text-center">
-              <small>
-                Don't have an account? <a href="/register">Register here</a>
-              </small>
             </div>
           </div>
         </div>

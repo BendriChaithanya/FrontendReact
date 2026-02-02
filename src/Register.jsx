@@ -6,7 +6,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,73 +25,117 @@ function Register() {
   };
 
   return (
-    <div className="bg-dark text-light min-vh-100">
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card p-4">
-            <h2 className="mb-4 text-center">Register</h2>
+    <div className="bg-body-tertiary min-vh-100 d-flex align-items-center">
+      <div className="container px-3">
+        <div className="row justify-content-center w-100">
+          <div className="col-12 col-sm-10 col-md-6 col-lg-5">
+            <div className="card shadow border-0 rounded-4">
+              <div className="card-body p-4 p-md-5">
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-3">
-                <label>Email</label>
-                <input
-                  {...register("email", { required: true })}
-                  className="form-control"
-                  placeholder="Email"
-                  type="email"
-                />
-                {errors.email && <small className="text-danger">Email is required</small>}
+                <h3 className="text-center fw-bold mb-1">
+                  Create Account
+                </h3>
+                <p className="text-center text-muted mb-4 small">
+                  Sign up to continue
+                </p>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                  {/* Email */}
+                  <div className="form-floating mb-3">
+                    <input
+                      type="email"
+                      className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                      placeholder="Email"
+                      {...register("email", { required: true })}
+                    />
+                    <label>Email</label>
+                    {errors.email && (
+                      <div className="invalid-feedback">
+                        Email is required
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Password */}
+                  <div className="form-floating mb-3">
+                    <input
+                      type="password"
+                      className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                      placeholder="Password"
+                      {...register("password", { required: true })}
+                    />
+                    <label>Password</label>
+                    {errors.password && (
+                      <div className="invalid-feedback">
+                        Password is required
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Name */}
+                  <div className="form-floating mb-3">
+                    <input
+                      type="text"
+                      className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                      placeholder="Full Name"
+                      {...register("name", { required: true })}
+                    />
+                    <label>Full Name</label>
+                    {errors.name && (
+                      <div className="invalid-feedback">
+                        Name is required
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Phone */}
+                  <div className="form-floating mb-3">
+                    <input
+                      type="tel"
+                      className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                      placeholder="Phone"
+                      {...register("phone", { required: true })}
+                    />
+                    <label>Phone Number</label>
+                    {errors.phone && (
+                      <div className="invalid-feedback">
+                        Phone number is required
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Address */}
+                  <div className="form-floating mb-4">
+                    <textarea
+                      className={`form-control ${errors.address ? "is-invalid" : ""}`}
+                      placeholder="Address"
+                      style={{ height: "90px" }}
+                      {...register("address", { required: true })}
+                    />
+                    <label>Address</label>
+                    {errors.address && (
+                      <div className="invalid-feedback">
+                        Address is required
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Button */}
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100 btn-lg rounded-pill"
+                  >
+                    Register
+                  </button>
+
+                </form>
+
               </div>
-
-              <div className="mb-3">
-                <label>Password</label>
-                <input
-                  {...register("password", { required: true })}
-                  className="form-control"
-                  placeholder="Password"
-                  type="password"
-                />
-                {errors.password && <small className="text-danger">Password is required</small>}
-              </div>
-
-              <div className="mb-3">
-                <label>Full Name</label>
-                <input
-                  {...register("name", { required: true })}
-                  className="form-control"
-                  placeholder="Your name"
-                />
-                {errors.name && <small className="text-danger">Name is required</small>}
-              </div>
-
-              <div className="mb-3">
-                <label>Phone Number</label>
-                <input
-                  {...register("phone", { required: true })}
-                  className="form-control"
-                  placeholder="Phone number"
-                  type="tel"
-                />
-                {errors.phone && <small className="text-danger">Phone number is required</small>}
-              </div>
-
-              <div className="mb-3">
-                <label>Address</label>
-                <textarea
-                  {...register("address", { required: true })}
-                  className="form-control"
-                  placeholder="Your address"
-                />
-                {errors.address && <small className="text-danger">Address is required</small>}
-              </div>
-
-              <button type="submit" className="btn btn-primary w-100">Register</button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

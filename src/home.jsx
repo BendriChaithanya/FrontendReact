@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import NonVeg from "./nonveg";
 
 function Home() {
   return (
@@ -16,7 +15,7 @@ function Home() {
         <source src="vid2.mp4.mov" type="video/mp4" />
       </video>
 
-      {/* Dark overlay for visibility */}
+      {/* Dark overlay */}
       <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark opacity-50 z-n1"></div>
 
       {/* Content */}
@@ -24,11 +23,29 @@ function Home() {
 
         <h1 className="fw-bold mb-4 display-4">Welcome To DishHub</h1>
 
-        <div className="d-grid gap-3 w-75">
-          <div className="btn btn-outline-light py-3 fs-4 rounded-pill">Veg</div>
-          <div className="btn btn-outline-light py-3 fs-4 rounded-pill">Non-Veg</div>
-          <div className="btn btn-outline-light py-3 fs-4 rounded-pill">Milk</div>
-          <div className="btn btn-outline-light py-3 fs-4 rounded-pill">Snacks</div>
+        <div className="d-grid gap-3 w-50 w-sm- w-md-50">
+
+          <Link
+            to="/veg"
+            className="btn btn-outline-light py-3 fs-4 rounded-pill"
+          >
+            🌱 Veg
+          </Link>
+
+          <Link
+            to="/nonveg"
+            className="btn btn-outline-light py-3 fs-4 rounded-pill"
+          >
+            🍗 Non-Veg
+          </Link>
+
+          <Link
+            to="/milk"
+            className="btn btn-outline-light py-3 fs-4 rounded-pill"
+          >
+            🥛 Milk
+          </Link>
+
         </div>
 
       </div>

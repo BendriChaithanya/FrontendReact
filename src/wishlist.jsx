@@ -12,7 +12,7 @@ function Wishlist() {
     <div className="bg-light min-vh-100 py-4">
       <div className="container">
 
-        <h2 className="text-center fw-bold mb-4 text-danger">
+        <h2 className="mb-4 text-center fw-bold">
           ❤️ My Wishlist
         </h2>
 

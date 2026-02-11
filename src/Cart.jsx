@@ -16,169 +16,226 @@ function Cart() {
   const { discount, msg } = useSelector((state) => state.coupon);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [discountPercent, setDiscountPercent] = useState(0);
   const [couponCode, setCouponCode] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
-  const [showQR, setshowQR] = useState(false);
+  const [showQR, setShowQR] = useState(false);
 
-  const navigate = useNavigate();
-
-  const totalAmount = cartItems.reduce(
+  const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  const buttonDiscountAmount = (totalAmount * discountPercent) / 100;
-  const couponDiscountAmount = (totalAmount * discount) / 100;
-  const gst = (totalAmount * 18) / 100;
-  const finalTotal = totalAmount - buttonDiscountAmount - couponDiscountAmount;
-
-  const handlecheckout = () => {
-    const orderData = {
-      items: cartItems,
-      total: totalAmount,
-      discount: discountPercent + discount,
-      finalAmount: finalTotal,
-      date: new Date(),
-    };
-
-    fetch("http://localhost:5000/api/v1/products/placeOrders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData),
-    })
-      .then(() => {
-        alert("Order Placed Successfully!");
-        navigate("/MyOrders");
-      })
-      .catch((err) => console.log(err));
-  };
+  const manualDiscount = (subtotal * discountPercent) / 100;
+  const couponDiscount = (subtotal * discount) / 100;
+  const gst = (subtotal * 18) / 100;
+  const grandTotal = subtotal - manualDiscount - couponDiscount + gst;
 
   return (
-    <div className="py-5" style={{ backgroundColor: "#000", minHeight: "100vh" }}>
-      <div className="container">
+    <div className="container my-5 d-flex justify-content-center">
+      <div className="w-75" style={{ maxWidth: "900px" }}>
 
-        {/* Cart Heading */}
-        <h2 className="text-center text-light fw-bold mb-4 display-4" style={{ fontFamily: "Poppins" }}>
-          🛒 MyCart
+        <h2 className="fw-bold text-center mb-4">
+          Your Cart ({cartItems.length})
         </h2>
 
-        {/* Empty Cart */}
         {cartItems.length === 0 && (
-          <h4 className="text-center text-warning fw-bold">Your cart is empty</h4>
+          <h5 className="text-muted text-center">Your cart is empty</h5>
         )}
 
-        {/* Cart Items */}
+        {/* CART ITEMS */}
         {cartItems.map((item) => (
-          <div key={item.id} className="glass-card card mb-4 p-3 shadow bg-dark text-light">
+          <div
+            key={item.id}
+            className="card mb-3 p-3 border-0 rounded-4 shadow-sm"
+            style={{ transition: "0.3s" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.classList.replace("shadow-sm", "shadow-lg");
+              e.currentTarget.style.transform = "translateY(-5px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.classList.replace("shadow-lg", "shadow-sm");
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
             <div className="row align-items-center">
+
               <div className="col-md-2 text-center">
-                <img src={item.image} alt={item.name} className="img-fluid rounded" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="img-fluid rounded"
+                  style={{ maxHeight: "80px" }}
+                />
               </div>
+
               <div className="col-md-4">
-                <h5 className="fw-bold" style={{ fontFamily: "Poppins" }}>{item.name}</h5>
-                <p className="text-warning mb-1">₹{item.price}</p>
+                <h6>{item.name}</h6>
+                <span className="text-primary fw-bold">
+                  ₹{item.price.toFixed(2)}
+                </span>
               </div>
-              <div className="col-md-4 d-flex align-items-center justify-content-center gap-3">
-                <button className="btn btn-outline-light btn-sm"
-                  onClick={() => dispatch(decrementQuantity(item.id))}>−</button>
-                <span className="fw-bold text-light fs-5">{item.quantity}</span>
-                <button className="btn btn-outline-light btn-sm"
-                  onClick={() => dispatch(incrementQuantity(item.id))}>+</button>
+
+              <div className="col-md-3 d-flex gap-2">
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => dispatch(decrementQuantity(item.id))}
+                >
+                  −
+                </button>
+
+                <span>{item.quantity}</span>
+
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => dispatch(incrementQuantity(item.id))}
+                >
+                  +
+                </button>
               </div>
-              <div className="col-md-2 text-end">
-                <button className="btn btn-danger btn-sm shadow"
-                  onClick={() => dispatch(removeFromCart(item.id))}>Remove</button>
+
+              <div className="col-md-3 text-end">
+                <button
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => dispatch(removeFromCart(item.id))}
+                >
+                  Remove
+                </button>
               </div>
+
             </div>
           </div>
         ))}
 
-        {/* Price Summary */}
+        {/* DISCOUNT BUTTONS */}
         {cartItems.length > 0 && (
-          <div className="glass-card card p-4 mb-4 shadow bg-dark text-light text-center">
-            <p className="fs-5 mb-1">Total Amount: <b>₹{totalAmount.toFixed(2)}</b></p>
-            <p className="mb-1">Button Discount: <b>₹{buttonDiscountAmount.toFixed(2)}</b></p>
-            <p className="mb-1">Coupon Discount: <b>₹{couponDiscountAmount.toFixed(2)}</b></p>
-            <p className="mb-1">GST (18%): <b>₹{gst.toFixed(2)}</b></p>
-            <h3 className="text-warning fw-bold mt-2">Final Total: ₹{finalTotal.toFixed(2)}</h3>
-          </div>
+          <>
+            <div className="text-center mt-4">
+              <button
+                className="btn btn-outline-warning mx-2"
+                onClick={() => setDiscountPercent(10)}
+              >
+                10%
+              </button>
+
+              <button
+                className="btn btn-outline-warning mx-2"
+                onClick={() => setDiscountPercent(20)}
+              >
+                20%
+              </button>
+
+              <button
+                className="btn btn-outline-warning mx-2"
+                onClick={() => setDiscountPercent(30)}
+              >
+                30%
+              </button>
+            </div>
+
+            {/* COUPON */}
+            <div className="input-group mt-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter coupon code"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+              />
+              <button
+                className="btn btn-dark"
+                onClick={() => dispatch(applyCoupon(couponCode))}
+              >
+                Apply
+              </button>
+            </div>
+
+            {msg && (
+              <p className={`text-center mt-2 ${
+                discount > 0 ? "text-success" : "text-danger"
+              }`}>
+                {msg}
+              </p>
+            )}
+
+            {/* ORDER SUMMARY */}
+            <div className="card p-4 mt-4 shadow-sm border-0 rounded-4">
+              <h5 className="fw-bold text-center mb-3">Order Summary</h5>
+
+              <div className="d-flex justify-content-between">
+                <span>Subtotal</span>
+                <span>₹{subtotal.toFixed(2)}</span>
+              </div>
+
+              <div className="d-flex justify-content-between">
+                <span>GST (18%)</span>
+                <span>₹{gst.toFixed(2)}</span>
+              </div>
+
+              <div className="d-flex justify-content-between text-danger">
+                <span>Manual Discount</span>
+                <span>- ₹{manualDiscount.toFixed(2)}</span>
+              </div>
+
+              <div className="d-flex justify-content-between text-danger">
+                <span>Coupon Discount</span>
+                <span>- ₹{couponDiscount.toFixed(2)}</span>
+              </div>
+
+              <hr />
+
+              <div className="d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span>₹{grandTotal.toFixed(2)}</span>
+              </div>
+
+              {/* EMAIL */}
+              <input
+                type="email"
+                className="form-control mt-3"
+                placeholder="Enter email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+              />
+
+              <SendOrderEmail
+                cartItems={cartItems}
+                FinalTotal={grandTotal}
+                tax={gst}
+                totalAmount={grandTotal}
+                customerEmail={customerEmail}
+              />
+
+              {/* QR */}
+              <button
+                className="btn btn-success w-100 mt-3"
+                onClick={() => setShowQR(true)}
+              >
+                Scan & Pay
+              </button>
+
+              {showQR && (
+                <div className="text-center mt-3">
+                  <QRCode
+                    value={`upi://pay?pa=9347823691-2@ybl&pn=Chaithanya&am=${grandTotal.toFixed(2)}&cu=INR`}
+                    style={{ height: 180, width: 180 }}
+                  />
+                </div>
+              )}
+
+              {/* CHECKOUT */}
+              <button
+                className="btn btn-dark w-100 mt-4"
+                onClick={() => navigate("/MyOrders")}
+              >
+                Proceed to Checkout
+              </button>
+            </div>
+          </>
         )}
 
-        {/* Discount Buttons */}
-        <div className="d-flex gap-3 justify-content-center flex-wrap mb-4">
-          <button className="btn btn-warning shadow fw-bold" onClick={() => setDiscountPercent(10)}>10% OFF</button>
-          <button className="btn btn-warning shadow fw-bold" onClick={() => setDiscountPercent(20)}>20% OFF</button>
-          <button className="btn btn-warning shadow fw-bold" onClick={() => setDiscountPercent(30)}>30% OFF</button>
-        </div>
-
-        {/* Coupon Input */}
-        <h5 className="text-center text-light fw-bold mb-2" style={{ fontFamily: "Poppins" }}>
-          🔑 Apply Coupon & Unlock Discount
-        </h5>
-        <div className="input-group mb-4 w-75 mx-auto">
-          <input
-            type="text"
-            className="form-control text-center"
-            placeholder="Enter coupon code"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-          />
-          <button className="btn btn-dark fw-bold" onClick={() => dispatch(applyCoupon(couponCode))}>Apply</button>
-        </div>
-
-        {msg && (
-          <p className={`text-center fw-bold fs-5 ${discount > 0 ? "text-success" : "text-danger"}`}>
-            {msg}
-          </p>
-        )}
-
-        {/* Email */}
-        <div className="mb-4 text-center">
-          <label className="form-label text-light fw-bold fs-5 d-block mb-2">Receive Bill Over Email</label>
-          <input
-            type="email"
-            className="form-control w-50 mx-auto text-center"
-            placeholder="Enter your email"
-            value={customerEmail}
-            onChange={(e) => setCustomerEmail(e.target.value)}
-          />
-        </div>
-
-        <SendOrderEmail
-          cartItems={cartItems}
-          FinalTotal={finalTotal}
-          tax={gst}
-          totalAmount={finalTotal + gst}
-          customerEmail={customerEmail}
-        />
-
-        {/* Scan & Pay */}
-        <div className="text-center my-4">
-          <button className="btn btn-success btn-lg shadow-lg px-4 fw-bold" onClick={() => setshowQR(true)}>
-            💳 Scan & Pay
-          </button>
-        </div>
-
-        {showQR && (
-          <div className="text-center mb-4">
-            <h3 className="text-light">📌 Scan to Pay</h3>
-            <h4 className="text-warning fw-bold mb-3">Amount: ₹{finalTotal.toFixed(2)}</h4>
-            <QRCode
-              value={`upi://pay?pa=9347823691-2@ybl&pn=Chaithanya&am=${finalTotal.toFixed(2)}&cu=INR`}
-              style={{ height: "250px", width: "250px" }}
-            />
-          </div>
-        )}
-
-        {/* Checkout */}
-        {cartItems.length > 0 && (
-          <div className="text-center">
-            <button className="btn btn-primary btn-lg shadow-lg px-5 fw-bold" onClick={handlecheckout}>
-              ✔ Checkout
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

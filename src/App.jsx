@@ -12,9 +12,10 @@ import Orders from "./MyOrders";
 import Register from "./Register";
 import Login from "./Login";
 import Wishlist from "./wishlist";
-
+import Footer from "./footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Contact from "./contact";
 
 function App() {
   const cartItems = useSelector((state) => state.cart);
@@ -24,73 +25,90 @@ function App() {
     <>
       <ToastContainer position="bottom-center" autoClose={2000} />
 
-      {/* NAVBAR */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
-        <div className="container-fluid">
+  <div className="container">
 
-          {/* Brand */}
-          <Link className="navbar-brand d-flex align-items-center gap-2 text-white" to="/home">
-            <img
-              src="logodish.jpg.png"
-              alt="DishHub"
-              width="45"
-              height="45"
-              className="rounded-circle"
-            />
-            <span className="fw-bold">DishHub</span>
+    {/* Logo / Brand */}
+    <Link className="navbar-brand fw-bold text-warning" to="/home">
+      DishHub
+    </Link>
+
+    {/* Toggle Button */}
+    <button
+      className="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span className="navbar-toggler-icon"></span>
+    </button>
+
+    {/* Nav Links */}
+    <div className="collapse navbar-collapse" id="navbarNav">
+      <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+
+        <li className="nav-item">
+          <Link className="nav-link text-white" to="/home">Home</Link>
+        </li>
+
+        <li className="nav-item">
+          <Link className="nav-link text-white" to="/veg">Veg</Link>
+        </li>
+
+        <li className="nav-item">
+          <Link className="nav-link text-white" to="/nonveg">Non-Veg</Link>
+        </li>
+
+        <li className="nav-item">
+          <Link className="nav-link text-white" to="/milk">Milk</Link>
+        </li>
+
+        <li className="nav-item">
+          <Link className="nav-link text-white" to="/menu">Menu</Link>
+        </li>
+
+        <li className="nav-item">
+          <Link className="nav-link text-white" to="/about">About</Link>
+        </li>
+         <li className="nav-item">
+          <Link className="nav-link text-white" to="/contact">📞Contact</Link>
+        </li>
+
+        {/* Cart */}
+        <li className="nav-item">
+          <Link className="nav-link position-relative text-white" to="/cart">
+            🛒 Cart
+            {cartCount > 0 && (
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                {cartCount}
+              </span>
+            )}
           </Link>
+        </li>
 
-          {/* Toggle */}
-          <button
-            className="navbar-toggler"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarContent"
+        {/* Account Dropdown */}
+        <li className="nav-item dropdown">
+          <a
+            className="nav-link dropdown-toggle text-warning"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+            Account
+          </a>
+          <ul className="dropdown-menu dropdown-menu-dark">
+            <li><Link className="dropdown-item" to="/login">Login</Link></li>
+            <li><Link className="dropdown-item" to="/register">Register</Link></li>
+            <li><Link className="dropdown-item" to="/myorders">My Orders</Link></li>
+            <li><Link className="dropdown-item" to="/wishlist">Wishlist</Link></li>
+          </ul>
+        </li>
 
-          {/* Menu */}
-          <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav ms-auto text-center">
+      </ul>
+    </div>
+  </div>
+</nav>
 
-              {[
-                ["Home", "/home"],
-                ["Veg", "/veg"],
-                ["NonVeg", "/nonveg"],
-                ["Milk", "/milk"],
-                ["Menu", "/menu"],
-                ["About", "/about"],
-                ["My Orders", "/myorders"],
-                ["Wishlist ❤️", "/wishlist"],
-                ["Register", "/register"],
-                ["Login", "/login"],
-              ].map(([name, path]) => (
-                <li className="nav-item" key={path}>
-                  <Link
-                    className="nav-link text-white fw-semibold py-2 opacity-75 hover-opacity-100"
-                    to={path}
-                  >
-                    {name}
-                  </Link>
-                </li>
-              ))}
-
-              {/* Cart */}
-              <li className="nav-item">
-                <Link className="nav-link text-white fw-semibold position-relative py-2" to="/cart">
-                  🛒 Cart
-                  {cartCount > 0 && (
-                    <span className="badge bg-danger rounded-pill ms-2">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-              </li>
-
-            </ul>
-          </div>
-        </div>
-      </nav>
 
       {/* ROUTES */}
       <div className="pt-5 mt-4">
@@ -107,7 +125,9 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/contact" element={<Contact/>}/>
         </Routes>
+         <Footer />
       </div>
     </>
   );

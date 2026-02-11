@@ -4,6 +4,7 @@ import { fetchNonvegItems, addToCart } from "./store";
 import { toggleWishlist } from "./wishlistSlice";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "./footer";
 
 function NonVeg() {
   const dispatch = useDispatch();
